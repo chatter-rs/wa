@@ -1,5 +1,7 @@
 [workspace]
-
+resolver = "2"
 members = [
-    "lib/wa-proto"
+    "lib/wa_binary",
+    "lib/wa_proto",
+    "lib/wa_types",
 ]
