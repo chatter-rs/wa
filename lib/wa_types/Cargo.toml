@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 strum = { version = "0.26.2", features = ["derive"] }
+subenum = "1.1.2"
 time = { version = "0.3.36", features = ["serde", "formatting", "macros", "parsing"] }
 wa_proto = { path = "../wa_proto" }

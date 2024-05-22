@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use strum::{Display, EnumString};
+use subenum::subenum;
 
 use crate::jid::JID;
 
@@ -105,20 +106,59 @@ pub struct ContactQRLinkTarget {
 }
 
 /// [`PrivacySetting`] is an individual setting value in the user's privacy settings.
+#[subenum(
+    PrivacySettingGroupAdd,
+    PrivacySettingLastSeen,
+    PrivacySettingStatus,
+    PrivacySettingProfile,
+    PrivacySettingReadReceipts,
+    PrivacySettingOnline,
+    PrivacySettingCallAdd
+)]
 #[derive(Clone, Debug, Display, EnumString, PartialEq)]
 pub enum PrivacySetting {
     #[strum(to_string = "")]
     Undefined,
+    #[subenum(
+        PrivacySettingGroupAdd,
+        PrivacySettingLastSeen,
+        PrivacySettingStatus,
+        PrivacySettingProfile,
+        PrivacySettingReadReceipts,
+        PrivacySettingOnline,
+        PrivacySettingCallAdd
+    )]
     #[strum(to_string = "all")]
     All,
+    #[subenum(
+        PrivacySettingGroupAdd,
+        PrivacySettingLastSeen,
+        PrivacySettingStatus,
+        PrivacySettingProfile
+    )]
     #[strum(to_string = "contacts")]
     Contacts,
+    #[subenum(
+        PrivacySettingGroupAdd,
+        PrivacySettingLastSeen,
+        PrivacySettingStatus,
+        PrivacySettingProfile
+    )]
     #[strum(to_string = "contact_blacklist")]
     ContactBlacklist,
+    #[subenum(PrivacySettingOnline)]
     #[strum(to_string = "match_last_seen")]
     MatchLastSeen,
+    #[subenum(PrivacySettingCallAdd)]
     #[strum(to_string = "known")]
     Known,
+    #[subenum(
+        PrivacySettingGroupAdd,
+        PrivacySettingLastSeen,
+        PrivacySettingStatus,
+        PrivacySettingProfile,
+        PrivacySettingReadReceipts
+    )]
     #[strum(to_string = "none")]
     None,
     #[strum(default)]
@@ -146,118 +186,16 @@ pub enum PrivacySettingType {
     UnknownVariant(String),
 }
 
-impl PrivacySettingType {
-    /// [`PrivacySettingType::valid_values`] maps the different privacy settings type to the values they accept.
-    pub fn valid_values(&self) -> Vec<PrivacySetting> {
-        match self {
-            PrivacySettingType::GroupAdd => [
-                PrivacySetting::All,
-                PrivacySetting::Contacts,
-                PrivacySetting::ContactBlacklist,
-                PrivacySetting::None,
-            ]
-            .to_vec(),
-            PrivacySettingType::LastSeen => [
-                PrivacySetting::All,
-                PrivacySetting::Contacts,
-                PrivacySetting::ContactBlacklist,
-                PrivacySetting::None,
-            ]
-            .to_vec(),
-            PrivacySettingType::Status => [
-                PrivacySetting::All,
-                PrivacySetting::Contacts,
-                PrivacySetting::ContactBlacklist,
-                PrivacySetting::None,
-            ]
-            .to_vec(),
-            PrivacySettingType::Profile => [
-                PrivacySetting::All,
-                PrivacySetting::Contacts,
-                PrivacySetting::ContactBlacklist,
-                PrivacySetting::None,
-            ]
-            .to_vec(),
-            PrivacySettingType::ReadReceipts => {
-                [PrivacySetting::All, PrivacySetting::None].to_vec()
-            }
-            PrivacySettingType::Online => {
-                [PrivacySetting::All, PrivacySetting::MatchLastSeen].to_vec()
-            }
-            PrivacySettingType::CallAdd => [PrivacySetting::All, PrivacySetting::Known].to_vec(),
-            PrivacySettingType::UnknownVariant(_) => [].to_vec(),
-        }
-    }
-}
-
 /// [`PrivacySettings`] contains the user's privacy settings.
 #[derive(Clone, Debug)]
 pub struct PrivacySettings {
-    pub group_add: PrivacySetting,
-    pub last_seen: PrivacySetting,
-    pub status: PrivacySetting,
-    pub profile: PrivacySetting,
-    pub read_receipts: PrivacySetting,
-    pub call_add: PrivacySetting,
-    pub online: PrivacySetting,
-}
-
-impl PrivacySettings {
-    /// [`PrivacySettings::validate`] validates that the values for the different privacy settings are what they accept.
-    pub fn validate(&self) -> Vec<PrivacySettingType> {
-        let mut invalid_settings = Vec::new();
-
-        if !PrivacySettingType::GroupAdd
-            .valid_values()
-            .contains(&self.group_add)
-        {
-            invalid_settings.push(PrivacySettingType::GroupAdd);
-        }
-
-        if !PrivacySettingType::LastSeen
-            .valid_values()
-            .contains(&self.last_seen)
-        {
-            invalid_settings.push(PrivacySettingType::LastSeen);
-        }
-
-        if !PrivacySettingType::Status
-            .valid_values()
-            .contains(&self.status)
-        {
-            invalid_settings.push(PrivacySettingType::Status);
-        }
-
-        if !PrivacySettingType::Profile
-            .valid_values()
-            .contains(&self.profile)
-        {
-            invalid_settings.push(PrivacySettingType::Profile);
-        }
-
-        if !PrivacySettingType::ReadReceipts
-            .valid_values()
-            .contains(&self.read_receipts)
-        {
-            invalid_settings.push(PrivacySettingType::ReadReceipts);
-        }
-
-        if !PrivacySettingType::CallAdd
-            .valid_values()
-            .contains(&self.call_add)
-        {
-            invalid_settings.push(PrivacySettingType::CallAdd);
-        }
-
-        if !PrivacySettingType::Online
-            .valid_values()
-            .contains(&self.online)
-        {
-            invalid_settings.push(PrivacySettingType::Online);
-        }
-
-        invalid_settings
-    }
+    pub group_add: PrivacySettingGroupAdd,
+    pub last_seen: PrivacySettingLastSeen,
+    pub status: PrivacySettingStatus,
+    pub profile: PrivacySettingProfile,
+    pub read_receipts: PrivacySettingReadReceipts,
+    pub call_add: PrivacySettingCallAdd,
+    pub online: PrivacySettingOnline,
 }
 
 /// [`StatusPrivacyType`] is the type of list in [`StatusPrivacy`].
