@@ -19,6 +19,7 @@
 
         nativeBuildInputs = [
           fenix.packages."${system}".stable.toolchain
+          protobuf
         ];
       };
 

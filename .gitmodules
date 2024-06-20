@@ -1,0 +1,3 @@
+[submodule "lib/wa_proto/whatsmeow"]
+	path = lib/wa_proto/whatsmeow
+	url = git@github.com:tulir/whatsmeow
