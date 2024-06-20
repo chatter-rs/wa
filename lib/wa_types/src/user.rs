@@ -8,8 +8,8 @@ use crate::jid::JID;
 /// [`VerifiedName`] contains verified WhatsApp business details.
 #[derive(Clone, Debug)]
 pub struct VerifiedName {
-    pub certificate: wa_proto::items::VerifiedNameCertificate,
-    pub details: wa_proto::items::verified_name_certificate::Details,
+    pub certificate: wa_proto::items::wa_web_protobufs_vname_cert::VerifiedNameCertificate,
+    pub details: wa_proto::items::wa_web_protobufs_vname_cert::verified_name_certificate::Details,
 }
 
 /// [`UserInfo`] contains the info about a WhatsApp user.

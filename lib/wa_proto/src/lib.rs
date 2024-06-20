@@ -1,7 +1,5 @@
-mod version;
-
-pub use version::PROTO_VERSION;
+pub const PROTO_VERSION: [u32; 3] = [2, 3000, 1014340090];
 
 pub mod items {
-    include!(concat!(env!("OUT_DIR"), "/wa_proto.rs"));
+    include!(concat!(env!("OUT_DIR"), "/mod_items.rs"));
 }
