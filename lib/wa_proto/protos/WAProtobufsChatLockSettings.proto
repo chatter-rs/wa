@@ -1,0 +1,9 @@
+syntax = "proto2";
+package WAProtobufsChatLockSettings;
+
+import "WAProtobufsUserPassword.proto";
+
+message ChatLockSettings {
+	optional bool hideLockedChats = 1;
+	optional WAProtobufsUserPassword.UserPassword secretCode = 2;
+}

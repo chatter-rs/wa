@@ -7,25 +7,20 @@ extern crate prost_build;
 fn main() {
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let out_dir = Path::new(&out_dir);
-    let proto_files_basedir = Path::new("whatsmeow").join("proto");
+    let proto_files_basedir = Path::new(".").join("protos");
 
     let mut proto_filepaths = Vec::new();
 
-    // for entry in glob(&format!("{proto_files_basedir}/*/*.proto"))
-    for entry in glob(
-        proto_files_basedir
-            .join("*")
-            .join("*.proto")
-            .to_str()
-            .unwrap(),
-    )
-    .expect("failed to get proto files from submodule")
+    for entry in glob(proto_files_basedir.join("*.proto").to_str().unwrap())
+        .expect("failed to get proto files from submodule")
     {
         match entry {
             Ok(path) => proto_filepaths.push(path),
             Err(err) => panic!("error while evaluating proto paths glob: {:?}", err),
         }
     }
+
+    dbg!(&proto_filepaths);
 
     prost_build::compile_protos(&proto_filepaths, &[proto_files_basedir]).unwrap();
 

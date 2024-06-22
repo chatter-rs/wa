@@ -18,8 +18,10 @@
         name = "chatter-rs-wa-dev";
 
         nativeBuildInputs = [
+          clang
           fenix.packages."${system}".stable.toolchain
           protobuf
+          taplo
         ];
       };
 
