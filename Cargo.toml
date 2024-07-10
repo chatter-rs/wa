@@ -1,7 +1,8 @@
 [workspace]
 resolver = "2"
 members = [
+    "lib/macros", "lib/utils",
     "lib/wa_binary",
-    "lib/wa_proto",
-    "lib/wa_types",
+    "lib/wa_proto", "lib/wa_socket",
+    "lib/wa_types"
 ]

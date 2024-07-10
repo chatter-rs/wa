@@ -1,15 +1,20 @@
 use std::collections::HashMap;
 
+use macros::serde_derive_de_from_str;
+use serde::Deserialize;
 use strum::{Display, EnumString};
 use subenum::subenum;
+use wa_proto::items::wa_web_protobufs_vname_cert::{
+    verified_name_certificate::Details, VerifiedNameCertificate,
+};
 
 use crate::jid::JID;
 
 /// [`VerifiedName`] contains verified WhatsApp business details.
 #[derive(Clone, Debug)]
 pub struct VerifiedName {
-    pub certificate: wa_proto::items::wa_web_protobufs_vname_cert::VerifiedNameCertificate,
-    pub details: wa_proto::items::wa_web_protobufs_vname_cert::verified_name_certificate::Details,
+    pub certificate: VerifiedNameCertificate,
+    pub details: Details,
 }
 
 /// [`UserInfo`] contains the info about a WhatsApp user.
@@ -31,14 +36,17 @@ pub enum ProfilePictureType {
     UnknownVariant(String),
 }
 
+serde_derive_de_from_str!(ProfilePictureType);
+
 /// [`ProfilePictureInfo`] contains the ID and the URL for a WhatsApp user's profile picture or group's photo.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct ProfilePictureInfo {
     /// The full URL for the image, can be downloaded with a simple HTTP request.
     pub url: String,
     /// The ID of the image. This is the same as [`UserInfo`].picture_id.
     pub id: String,
     /// The quality of the image.
+    #[serde(rename = "type")]
     pub r#type: ProfilePictureType,
 
     /// The path to the image, probably not very useful.

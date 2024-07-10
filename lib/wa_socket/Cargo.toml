@@ -1,0 +1,9 @@
+[package]
+name = "wa_socket"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+thiserror = "1.0.61"
+wa_binary = { path = "../wa_binary" }
+

@@ -6,7 +6,13 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+serde = { version = "1.0.203", features = ["derive"] }
 strum = { version = "0.26.2", features = ["derive"] }
 subenum = "1.1.2"
 time = { version = "0.3.36", features = ["serde", "formatting", "macros", "parsing"] }
 wa_proto = { path = "../wa_proto" }
+macros = { path = "../macros" }
+utils = { path = "../utils" }
+libsignal-protocol = { git = "https://github.com/signalapp/libsignal" }
+serde_json = "1.0.117"
+thiserror = "1.0.61"
